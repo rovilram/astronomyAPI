@@ -1,0 +1,27 @@
+{
+  "name": "astronomy-api",
+  "version": "0.0.1",
+  "description": "## Antes de empezar   1. Instala, con `npm` los paquetes `express`, `mongoose` y `nodemon`   2. Especifica la configuración de mongoose para que se conecte correctamente a mongo en `src/configs/db.js`   3. Ejecuta el script `npm run seeds`",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/main.js",
+    "dev": "nodemon src/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rovilram/astronomyAPI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rovilram/astronomyAPI/issues"
+  },
+  "homepage": "https://github.com/rovilram/astronomyAPI#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.1",
+    "seeds": "^2.3.1"
+  }
+}
