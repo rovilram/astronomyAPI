@@ -8,9 +8,9 @@ const DB_PORT = process.env.DB_PORT;
 const DB_URI = `mongodb://${DB_HOST}:${DB_PORT}/astronomy`;
 
 
+mongoose.dbConnect = async () => {
 
-mongoose
-  .connect(DB_URI, {
+  mongoose.connect(DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -19,7 +19,11 @@ mongoose
   .then(() => {
     console.info('Connected to DB!', DB_URI);
   })
-  .catch((err) => console.error(err));
+  //.catch((err) => console.error(err));
+
+}
+
+
 
   //desconecta la base de datos cuando salimos de node con ctrl+c
 process.on('SIGINT', () => {

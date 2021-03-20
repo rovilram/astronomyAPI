@@ -14,14 +14,14 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use('/astronomy/landigns', landingsRoute);
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+    res.send('Hello World!');
 })
 
+app.use('/astronomy/landigns', landingsRoute);
 
 app.listen(HTTP.port, HTTP.host, () => {
-  console.log(`Example app listening at http://${HTTP.host}:${HTTP.port}`)
+  console.log(`astronomy app listening at http://${HTTP.host}:${HTTP.port}`)
 })
