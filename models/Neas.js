@@ -2,8 +2,8 @@ const { Schema, model } = require("mongoose");
 
 //como no necesitamos introducir datos en la colección landings,
 //el schema lo dejamos sin estructurar.
-const landingSchema = new Schema({}, {strict: true});
-const Landing = model("Landing", landingSchema)
+const neasSchema = new Schema({}, {strict: true});
+const Neas = model("Neas", neasSchema)
 
-module.exports = Landing;
+module.exports = Neas;
 

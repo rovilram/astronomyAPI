@@ -7,9 +7,7 @@ const DB_HOST = process.env.DB_HOST;
 const DB_PORT = process.env.DB_PORT;
 const DB_URI = `mongodb://${DB_HOST}:${DB_PORT}/astronomy`;
 
-
-mongoose.dbConnect = async () => {
-
+//conectamos a la base de datos una sola vez y esa misma conexión se reutilizará
   mongoose.connect(DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -19,9 +17,7 @@ mongoose.dbConnect = async () => {
   .then(() => {
     console.info('Connected to DB!', DB_URI);
   })
-  //.catch((err) => console.error(err));
-
-}
+  .catch((err) => console.error(err));
 
 
 

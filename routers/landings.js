@@ -1,29 +1,8 @@
 const express = require("express");
-
-
 const router = express.Router();
+const Landing = require("../models/Landing");
 
 
-module.exports = router;
-
-
-//TODO: ver como sacar esta función a otro archivo y que nos sirva para las otras colecciones
-const find = async (filter) => {
-    const db = require("../database/mongoose");
-    const Landing = require("../models/Landing");
-    try {
-        await db.dbConnect();
-        const response = await Landing.find(filter);
-        await db.connection.close(() => {
-            console.info('> mongoose succesfully disconnected!');
-        })
-        return (response);
-    }
-    catch (error) {
-        console.log("error", error)
-        throw (error);
-    }
-}
 
 //RUTA BASE ENDPOINTS `http://localhost:3000/astronomy/landings`
 //2. GET para obtener nombre y masa de uno o más meteoritos cuya masa sea la especificada (route params)
@@ -35,7 +14,12 @@ router.get("/mass/:mass?", (req, res) => {
         const filter = {
             mass: mass
         }
-        find(filter)
+        const projection = {
+            _id: 0,
+            name: 1,
+            mass: 1
+        }
+        Landing.find(filter, projection)
             .then(result => {
                 //TODO: no se porque no reconoce cuando el array viene vacío y tengo que
                 //hacer la ñapa de convertirlo a string para poderlo reconocer...
@@ -63,7 +47,12 @@ router.get("/class/:class?", (req, res) => {
         const filter = {
             recclass: recclass
         };
-        find(filter)
+        const projection = {
+            _id: 0,
+            name: 1,
+            recclass: 1
+        };
+        Landing.find(filter, projection)
             .then(result => {
                 if (JSON.stringify(result) === "[]") {
                     res.status(404)
@@ -85,7 +74,7 @@ router.get("/:name?", (req, res, next) => {
             name: name
         }
 
-        find(filter)
+        Landing.find(filter)
             .then(result => {
                 if (JSON.stringify(result) === "[]") {
                     res.status(404)
@@ -113,9 +102,14 @@ router.get("/", (req, res, next) => {
                 $gte: parseInt(minimum_mass)
             }
         }
-        console.log(filter)
+        const projection = {
+            _id: 0,
+            name: 1,
+            mass: 1
+        }
+        console.log(filter, projection)
 
-        find(filter)
+        Landing.find(filter, projection)
             .then(result => {
                 if (JSON.stringify(result) === "[]") {
                     res.status(404)
@@ -126,13 +120,6 @@ router.get("/", (req, res, next) => {
             .catch(error => res.sendStatus(400, error))
     }
 })
-
-
-
-
-
-
-
 
 /* 
 // 4. GET para obtener nombre, masa y fecha de todos los meteoritos caídos en determinadas fechas de la siguiente manera:
@@ -144,37 +131,22 @@ router.get("/", (req, res, next) => {
 router.get("/", (req, res, next) => {
     const from = req.query.from;
     const to = req.query.to;
-    let filter;
     if (!from && !to) next();
     else {
-        const fromDate = (`${parseInt(from)}-01-01T00:00:01`);
-        const toDate = (`${parseInt(to)}-12-31T23:59:59`);
-
-        //TODO: hacer un filter para los tres casos. Y ver cuando el año no tiene 3 cifras
-        if (from && to) {
-            filter = {
-                year: {
-                    $gte: new Date(fromDate),
-                    $lte: new Date(toDate)
-                }
+        const filter = {
+            year: {
+                $gte: (from) ? new Date(from) : new Date("0001-01-01"),
+                $lte: (to) ? new Date(to) : new Date()
             }
         }
-        else if (!from) {
-            filter = {
-                year: {
-                    $lte: new Date(toDate)
-                }
-            }
+        const projection = {
+            _id: 0,
+            name: 1,
+            mass: 1,
+            year: 1
         }
-        else if (!to) {
-            filter = {
-                year: {
-                    $gte: new Date(fromDate),
-                }
-            }
-        }
-
-        find(filter)
+        console.log(projection)
+        Landing.find(filter, projection)
             .then(result => {
                 if (JSON.stringify(result) === "[]") {
                     res.status(404)
@@ -186,3 +158,4 @@ router.get("/", (req, res, next) => {
     }
 })
 
+module.exports = router;

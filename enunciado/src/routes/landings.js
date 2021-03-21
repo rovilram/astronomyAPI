@@ -10,7 +10,7 @@ const Landings = require('../models/Landings');
 //   from: 2005,
 //   to: 2010
 // }
-route.get('/', [isAuthenticated], async (req, res, next) => {
+route.get('/', async (req, res, next) => {
   try {
     const from = req.query.from;
     const to = req.query.to;

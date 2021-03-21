@@ -1,5 +1,8 @@
 const express = require('express');
 const landingsRoute = require("./routers/landings")
+const neasRoute = require("./routers/neas")
+const db = require("./database/mongoose");
+
 require("dotenv").config();
 
 
@@ -21,6 +24,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/astronomy/landigns', landingsRoute);
+app.use('/astronomy/neas', neasRoute);
 
 app.listen(HTTP.port, HTTP.host, () => {
   console.log(`astronomy app listening at http://${HTTP.host}:${HTTP.port}`)
