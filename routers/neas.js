@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 const Neas = require("../models/Neas");
-const { route } = require("./landings");
 
 
 // * Ruta base: `http://localhost:3000/astronomy/neas`
